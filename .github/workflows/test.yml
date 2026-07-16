@@ -1,0 +1,32 @@
+name: Test
+
+on:
+  workflow_dispatch: {}
+  push: {}
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        nodever: [24]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.nodever }}
+          cache: 'npm'
+
+      - name: Install Deps
+        run: npm ci
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Check No Change
+        if: runner.os == 'Linux'
+        run: git diff --exit-code

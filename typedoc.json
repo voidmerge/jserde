@@ -1,0 +1,17 @@
+{
+  "entryPoints": ["./src/index.ts"],
+  "out": ".",
+  "cleanOutputDir": false,
+  "plugin": ["typedoc-plugin-markdown"],
+  "outputFileStrategy": "modules",
+  "entryFileName": "README.md",
+  "flattenOutputFiles": true,
+  "disableSources": true,
+  "expandParameters": true,
+  "hidePageHeader": true,
+  "hideBreadcrumbs": true,
+  "hidePageTitle": true,
+  "parametersFormat": "table",
+  "interfacePropertiesFormat": "table",
+  "classPropertiesFormat": "table"
+}
