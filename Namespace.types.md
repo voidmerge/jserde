@@ -12,6 +12,10 @@
 
 > **ArrOpen**: `"["`
 
+##### Bool
+
+> **Bool**: `"bool"`
+
 ##### F64
 
 > **F64**: `"f64"`
@@ -19,6 +23,10 @@
 ##### Null
 
 > **Null**: `"null"`
+
+##### Str
+
+> **Str**: `"str"`
 
 ## Classes
 
@@ -376,14 +384,25 @@
 
 ---
 
+### TokBool
+
+#### Properties
+
+| Property                      | Type            |
+| ----------------------------- | --------------- |
+| <a id="property-t-2"></a> `t` | [`Bool`](#bool) |
+| <a id="property-v"></a> `v`   | `boolean`       |
+
+---
+
 ### TokF64
 
 #### Properties
 
 | Property                      | Type          |
 | ----------------------------- | ------------- |
-| <a id="property-t-2"></a> `t` | [`F64`](#f64) |
-| <a id="property-v"></a> `v`   | `number`      |
+| <a id="property-t-3"></a> `t` | [`F64`](#f64) |
+| <a id="property-v-1"></a> `v` | `number`      |
 
 ---
 
@@ -393,7 +412,18 @@
 
 | Property                      | Type            |
 | ----------------------------- | --------------- |
-| <a id="property-t-3"></a> `t` | [`Null`](#null) |
+| <a id="property-t-4"></a> `t` | [`Null`](#null) |
+
+---
+
+### TokStr
+
+#### Properties
+
+| Property                      | Type          |
+| ----------------------------- | ------------- |
+| <a id="property-t-5"></a> `t` | [`Str`](#str) |
+| <a id="property-v-2"></a> `v` | `string`      |
 
 ## Type Aliases
 
@@ -405,10 +435,10 @@
 
 ### JsVal
 
-> **JsVal** = `null` \| `number` \| [`JsArr`](#jsarr)
+> **JsVal** = `null` \| `boolean` \| `number` \| `string` \| [`JsArr`](#jsarr)
 
 ---
 
 ### Tok
 
-> **Tok** = [`TokNull`](#toknull) \| [`TokF64`](#tokf64) \| [`TokArrOpen`](#tokarropen) \| [`TokArrClose`](#tokarrclose)
+> **Tok** = [`TokNull`](#toknull) \| [`TokBool`](#tokbool) \| [`TokF64`](#tokf64) \| [`TokStr`](#tokstr) \| [`TokArrOpen`](#tokarropen) \| [`TokArrClose`](#tokarrclose)

@@ -27,8 +27,14 @@ function* jsIterate(val: types.JsVal): Generator<types.Tok> {
     yield { t: types.TokTy.Null };
   } else {
     switch (typeof val) {
+      case 'boolean':
+        yield { t: types.TokTy.Bool, v: val };
+        break;
       case 'number':
         yield { t: types.TokTy.F64, v: val };
+        break;
+      case 'string':
+        yield { t: types.TokTy.Str, v: val };
         break;
     }
   }
@@ -52,7 +58,11 @@ function tokToVal(all: types.Tok[]): types.JsVal {
   switch (tok.t) {
     case types.TokTy.Null:
       return null;
+    case types.TokTy.Bool:
+      return tok.v;
     case types.TokTy.F64:
+      return tok.v;
+    case types.TokTy.Str:
       return tok.v;
     case types.TokTy.ArrOpen:
       const out = [];

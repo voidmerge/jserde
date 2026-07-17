@@ -1,22 +1,35 @@
-export type JsVal = null | number | JsArr;
+export type JsVal = null | boolean | number | string | JsArr;
 export type JsArr = JsVal[];
 
 export enum TokTy {
   Null = 'null',
+  Bool = 'bool',
   F64 = 'f64',
+  Str = 'str',
   ArrOpen = '[',
   ArrClose = ']',
 }
 
-export type Tok = TokNull | TokF64 | TokArrOpen | TokArrClose;
+export type Tok =
+  TokNull | TokBool | TokF64 | TokStr | TokArrOpen | TokArrClose;
 
 export interface TokNull {
   t: TokTy.Null;
 }
 
+export interface TokBool {
+  t: TokTy.Bool;
+  v: boolean;
+}
+
 export interface TokF64 {
   t: TokTy.F64;
   v: number;
+}
+
+export interface TokStr {
+  t: TokTy.Str;
+  v: string;
 }
 
 export interface TokArrOpen {

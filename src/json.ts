@@ -12,14 +12,14 @@ export class SerializerJson extends SerializerUtil {
           out.push(']');
           if (this.#state[0] === 'arrN') {
             this.#state.shift();
-          }
-          if (this.#state[0] === 'arr1') {
+          } else if (this.#state[0] === 'arr1') {
             this.#state.shift();
           }
           continue;
       }
 
       if (this.#state[0] === 'arr1') {
+        this.#state.shift();
         this.#state.unshift('arrN');
       } else if (this.#state[0] === 'arrN') {
         out.push(',');
@@ -29,7 +29,13 @@ export class SerializerJson extends SerializerUtil {
         case TokTy.Null:
           out.push('null');
           continue;
+        case TokTy.Bool:
+          out.push(JSON.stringify(tok.v));
+          continue;
         case TokTy.F64:
+          out.push(JSON.stringify(tok.v));
+          continue;
+        case TokTy.Str:
           out.push(JSON.stringify(tok.v));
           continue;
         case TokTy.ArrOpen:
@@ -46,7 +52,9 @@ export class SerializerJson extends SerializerUtil {
 const RE: [string, RegExp][] = [
   ['ws', /[:, \r\n\t]/uy],
   [TokTy.Null, /null(?=[^a-zA-Z0-9_$])/uy],
+  [TokTy.Bool, /(?:true|false)(?=[^a-zA-Z0-9_$])/uy],
   [TokTy.F64, /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?(?=[^\d.eE+-])/uy],
+  [TokTy.Str, /"(?:[^"\\]|\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))*"/uy],
   [TokTy.ArrOpen, /\[/uy],
   [TokTy.ArrClose, /\]/uy],
 ];
@@ -54,7 +62,9 @@ const RE: [string, RegExp][] = [
 const RE_FIN: [string, RegExp][] = [
   ['ws', /[:, \r\n\t]/uy],
   [TokTy.Null, /null(?![a-zA-Z0-9_$])/uy],
+  [TokTy.Bool, /(?:true|false)(?![a-zA-Z0-9_$])/uy],
   [TokTy.F64, /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/uy],
+  [TokTy.Str, /"(?:[^"\\]|\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))*"/uy],
   [TokTy.ArrOpen, /\[/uy],
   [TokTy.ArrClose, /\]/uy],
 ];
@@ -76,7 +86,13 @@ export class DeserializerJson extends DeserializerUtil {
             case TokTy.Null:
               out.push({ t });
               break;
+            case TokTy.Bool:
+              out.push({ t, v: JSON.parse(match) });
+              break;
             case TokTy.F64:
+              out.push({ t, v: JSON.parse(match) });
+              break;
+            case TokTy.Str:
               out.push({ t, v: JSON.parse(match) });
               break;
             case TokTy.ArrOpen:
