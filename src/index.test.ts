@@ -1,10 +1,4 @@
-import {
-  DeserializerJson,
-  SerializerJson,
-  jsToStream,
-  streamToJs,
-  streamToString,
-} from './index.js';
+import { types, stream, json } from './index.js';
 
 describe('suite', () => {
   it('ser sanity', () => {});
@@ -26,15 +20,15 @@ describe('suite', () => {
         }
         controller.close();
       },
-    }).pipeThrough(new SerializerJson().transformStream());
+    }).pipeThrough(new json.SerializerJson().transformStream());
 
-    console.log('GOT', await streamToString(res));
+    console.log('GOT', await stream.streamToString(res));
 
     const encoder = new TextEncoder();
 
     console.log(
       '2',
-      await streamToJs(
+      await stream.streamToJs(
         new ReadableStream({
           start(controller) {
             for (const chunk of ['[ 3', '.141, nu', 'll, [', ']]']) {
@@ -44,10 +38,13 @@ describe('suite', () => {
           },
         })
           .pipeThrough(new TextDecoderStream())
-          .pipeThrough(new DeserializerJson().transformStream()),
+          .pipeThrough(new json.DeserializerJson().transformStream()),
       ),
     );
 
-    console.log('3', await streamToJs(jsToStream([3.141, null, []])));
+    console.log(
+      '3',
+      await stream.streamToJs(stream.jsToStream([3.141, null, []])),
+    );
   });
 });

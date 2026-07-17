@@ -1,700 +1,205 @@
-## Enumerations
+# JSerde (@voidmerge/jserde)
 
-### TokTy
+![NPM License](https://img.shields.io/npm/l/%40voidmerge%2Fjserde)
+![NPM Version](https://img.shields.io/npm/v/%40voidmerge%2Fjserde)
 
-#### Enumeration Members
+Streaming data format translation and transcoding.
 
-##### ArrClose
+```ts
+import { jserde, json, leaf } from '@voidmerge/jserde';
 
-> **ArrClose**: `"]"`
+console.log(
+  jserde()
+    .fromStr('{"hello":"world"}', new json.DeserializerJson())
+    .toStr(new leaf.SerializerLeaf()),
+);
 
-##### ArrOpen
+// hello = world
+```
 
-> **ArrOpen**: `"["`
+## Namespaces
 
-##### F64
-
-> **F64**: `"f64"`
-
-##### Null
-
-> **Null**: `"null"`
-
-## Classes
-
-### Deserializer
-
-#### Extended by
-
-- [`DeserializerUtil`](#deserializerutil)
-
-#### Constructors
-
-##### Constructor
-
-> **new Deserializer**(): [`Deserializer`](#deserializer)
-
-###### Returns
-
-[`Deserializer`](#deserializer)
-
-#### Methods
-
-##### append()
-
-> **append**(`chunk`: `string`): `void`
-
-###### Parameters
-
-| Parameter | Type     |
-| --------- | -------- |
-| `chunk`   | `string` |
-
-###### Returns
-
-`void`
-
-##### process()
-
-> **process**(`final`: `boolean`): [`Tok`](#tok)[]
-
-###### Parameters
-
-| Parameter | Type      |
-| --------- | --------- |
-| `final`   | `boolean` |
-
-###### Returns
-
-[`Tok`](#tok)[]
-
-##### transformStream()
-
-> **transformStream**(): `TransformStream`\<`string`, [`Tok`](#tok)>\>
-
-###### Returns
-
-`TransformStream`\<`string`, [`Tok`](#tok)\>
-
----
-
-### DeserializerJson
-
-#### Extends
-
-- [`DeserializerUtil`](#deserializerutil)
-
-#### Constructors
-
-##### Constructor
-
-> **new DeserializerJson**(): [`DeserializerJson`](#deserializerjson)
-
-###### Returns
-
-[`DeserializerJson`](#deserializerjson)
-
-###### Inherited from
-
-[`DeserializerUtil`](#deserializerutil).[`constructor`](#constructor-2)
-
-#### Accessors
-
-##### buffer
-
-###### Get Signature
-
-> **get** **buffer**(): `string`
-
-###### Returns
-
-`string`
-
-###### Inherited from
-
-[`DeserializerUtil`](#deserializerutil).[`buffer`](#buffer-1)
-
-##### cursor
-
-###### Get Signature
-
-> **get** **cursor**(): `number`
-
-###### Returns
-
-`number`
-
-###### Inherited from
-
-[`DeserializerUtil`](#deserializerutil).[`cursor`](#cursor-1)
-
-#### Methods
-
-##### advance()
-
-> **advance**(`length`: `number`): `void`
-
-###### Parameters
-
-| Parameter | Type     |
-| --------- | -------- |
-| `length`  | `number` |
-
-###### Returns
-
-`void`
-
-###### Inherited from
-
-[`DeserializerUtil`](#deserializerutil).[`advance`](#advance-1)
-
-##### append()
-
-> **append**(`chunk`: `string`): `void`
-
-###### Parameters
-
-| Parameter | Type     |
-| --------- | -------- |
-| `chunk`   | `string` |
-
-###### Returns
-
-`void`
-
-###### Inherited from
-
-[`DeserializerUtil`](#deserializerutil).[`append`](#append-2)
-
-##### match()
-
-> **match**(`re`: `RegExp`): `string` \| `null`
-
-###### Parameters
-
-| Parameter | Type     |
-| --------- | -------- |
-| `re`      | `RegExp` |
-
-###### Returns
-
-`string` \| `null`
-
-###### Inherited from
-
-[`DeserializerUtil`](#deserializerutil).[`match`](#match-1)
-
-##### process()
-
-> **process**(`final`: `boolean`): [`Tok`](#tok)[]
-
-###### Parameters
-
-| Parameter | Type      |
-| --------- | --------- |
-| `final`   | `boolean` |
-
-###### Returns
-
-[`Tok`](#tok)[]
-
-###### Overrides
-
-[`DeserializerUtil`](#deserializerutil).[`process`](#process-2)
-
-##### transformStream()
-
-> **transformStream**(): `TransformStream`\<`string`, [`Tok`](#tok)>\>
-
-###### Returns
-
-`TransformStream`\<`string`, [`Tok`](#tok)\>
-
-###### Inherited from
-
-[`DeserializerUtil`](#deserializerutil).[`transformStream`](#transformstream-2)
-
----
-
-### DeserializerUtil
-
-#### Extends
-
-- [`Deserializer`](#deserializer)
-
-#### Extended by
-
-- [`DeserializerJson`](#deserializerjson)
-
-#### Constructors
-
-##### Constructor
-
-> **new DeserializerUtil**(): [`DeserializerUtil`](#deserializerutil)
-
-###### Returns
-
-[`DeserializerUtil`](#deserializerutil)
-
-###### Inherited from
-
-[`Deserializer`](#deserializer).[`constructor`](#constructor)
-
-#### Accessors
-
-##### buffer
-
-###### Get Signature
-
-> **get** **buffer**(): `string`
-
-###### Returns
-
-`string`
-
-##### cursor
-
-###### Get Signature
-
-> **get** **cursor**(): `number`
-
-###### Returns
-
-`number`
-
-#### Methods
-
-##### advance()
-
-> **advance**(`length`: `number`): `void`
-
-###### Parameters
-
-| Parameter | Type     |
-| --------- | -------- |
-| `length`  | `number` |
-
-###### Returns
-
-`void`
-
-##### append()
-
-> **append**(`chunk`: `string`): `void`
-
-###### Parameters
-
-| Parameter | Type     |
-| --------- | -------- |
-| `chunk`   | `string` |
-
-###### Returns
-
-`void`
-
-###### Overrides
-
-[`Deserializer`](#deserializer).[`append`](#append)
-
-##### match()
-
-> **match**(`re`: `RegExp`): `string` \| `null`
-
-###### Parameters
-
-| Parameter | Type     |
-| --------- | -------- |
-| `re`      | `RegExp` |
-
-###### Returns
-
-`string` \| `null`
-
-##### process()
-
-> **process**(`final`: `boolean`): [`Tok`](#tok)[]
-
-###### Parameters
-
-| Parameter | Type      |
-| --------- | --------- |
-| `final`   | `boolean` |
-
-###### Returns
-
-[`Tok`](#tok)[]
-
-###### Inherited from
-
-[`Deserializer`](#deserializer).[`process`](#process)
-
-##### transformStream()
-
-> **transformStream**(): `TransformStream`\<`string`, [`Tok`](#tok)>\>
-
-###### Returns
-
-`TransformStream`\<`string`, [`Tok`](#tok)\>
-
-###### Inherited from
-
-[`Deserializer`](#deserializer).[`transformStream`](#transformstream)
-
----
-
-### Serializer
-
-#### Extended by
-
-- [`SerializerUtil`](#serializerutil)
-
-#### Constructors
-
-##### Constructor
-
-> **new Serializer**(): [`Serializer`](#serializer)
-
-###### Returns
-
-[`Serializer`](#serializer)
-
-#### Methods
-
-##### append()
-
-> **append**(`token`: [`Tok`](#tok)): `void`
-
-###### Parameters
-
-| Parameter | Type          |
-| --------- | ------------- |
-| `token`   | [`Tok`](#tok) |
-
-###### Returns
-
-`void`
-
-##### process()
-
-> **process**(`final`: `boolean`): `string`[]
-
-###### Parameters
-
-| Parameter | Type      |
-| --------- | --------- |
-| `final`   | `boolean` |
-
-###### Returns
-
-`string`[]
-
-##### transformStream()
-
-> **transformStream**(): `TransformStream`\<[`Tok`](#tok), `string`>\>
-
-###### Returns
-
-`TransformStream`\<[`Tok`](#tok), `string`\>
-
----
-
-### SerializerJson
-
-#### Extends
-
-- [`SerializerUtil`](#serializerutil)
-
-#### Constructors
-
-##### Constructor
-
-> **new SerializerJson**(): [`SerializerJson`](#serializerjson)
-
-###### Returns
-
-[`SerializerJson`](#serializerjson)
-
-###### Inherited from
-
-[`SerializerUtil`](#serializerutil).[`constructor`](#constructor-5)
-
-#### Accessors
-
-##### tokens
-
-###### Get Signature
-
-> **get** **tokens**(): [`Tok`](#tok)[]
-
-###### Returns
-
-[`Tok`](#tok)[]
-
-###### Inherited from
-
-[`SerializerUtil`](#serializerutil).[`tokens`](#tokens-1)
-
-#### Methods
-
-##### append()
-
-> **append**(`token`: [`Tok`](#tok)): `void`
-
-###### Parameters
-
-| Parameter | Type          |
-| --------- | ------------- |
-| `token`   | [`Tok`](#tok) |
-
-###### Returns
-
-`void`
-
-###### Inherited from
-
-[`SerializerUtil`](#serializerutil).[`append`](#append-5)
-
-##### process()
-
-> **process**(`final`: `boolean`): `string`[]
-
-###### Parameters
-
-| Parameter | Type      |
-| --------- | --------- |
-| `final`   | `boolean` |
-
-###### Returns
-
-`string`[]
-
-###### Overrides
-
-[`SerializerUtil`](#serializerutil).[`process`](#process-5)
-
-##### shift()
-
-> **shift**(): [`Tok`](#tok) \| `undefined`
-
-###### Returns
-
-[`Tok`](#tok) \| `undefined`
-
-###### Inherited from
-
-[`SerializerUtil`](#serializerutil).[`shift`](#shift-1)
-
-##### transformStream()
-
-> **transformStream**(): `TransformStream`\<[`Tok`](#tok), `string`>\>
-
-###### Returns
-
-`TransformStream`\<[`Tok`](#tok), `string`\>
-
-###### Inherited from
-
-[`SerializerUtil`](#serializerutil).[`transformStream`](#transformstream-5)
-
----
-
-### SerializerUtil
-
-#### Extends
-
-- [`Serializer`](#serializer)
-
-#### Extended by
-
-- [`SerializerJson`](#serializerjson)
-
-#### Constructors
-
-##### Constructor
-
-> **new SerializerUtil**(): [`SerializerUtil`](#serializerutil)
-
-###### Returns
-
-[`SerializerUtil`](#serializerutil)
-
-###### Inherited from
-
-[`Serializer`](#serializer).[`constructor`](#constructor-3)
-
-#### Accessors
-
-##### tokens
-
-###### Get Signature
-
-> **get** **tokens**(): [`Tok`](#tok)[]
-
-###### Returns
-
-[`Tok`](#tok)[]
-
-#### Methods
-
-##### append()
-
-> **append**(`token`: [`Tok`](#tok)): `void`
-
-###### Parameters
-
-| Parameter | Type          |
-| --------- | ------------- |
-| `token`   | [`Tok`](#tok) |
-
-###### Returns
-
-`void`
-
-###### Overrides
-
-[`Serializer`](#serializer).[`append`](#append-3)
-
-##### process()
-
-> **process**(`final`: `boolean`): `string`[]
-
-###### Parameters
-
-| Parameter | Type      |
-| --------- | --------- |
-| `final`   | `boolean` |
-
-###### Returns
-
-`string`[]
-
-###### Inherited from
-
-[`Serializer`](#serializer).[`process`](#process-3)
-
-##### shift()
-
-> **shift**(): [`Tok`](#tok) \| `undefined`
-
-###### Returns
-
-[`Tok`](#tok) \| `undefined`
-
-##### transformStream()
-
-> **transformStream**(): `TransformStream`\<[`Tok`](#tok), `string`>\>
-
-###### Returns
-
-`TransformStream`\<[`Tok`](#tok), `string`\>
-
-###### Inherited from
-
-[`Serializer`](#serializer).[`transformStream`](#transformstream-3)
+- [json](Namespace.json.md)
+- [stream](Namespace.stream.md)
+- [types](Namespace.types.md)
 
 ## Interfaces
 
-### TokArrClose
+### JSerde
 
-#### Properties
+Javascript Serialization and Deserialization utility.
 
-| Property                    | Type                    |
-| --------------------------- | ----------------------- |
-| <a id="property-t"></a> `t` | [`ArrClose`](#arrclose) |
+#### Methods
 
----
+##### fromJs()
 
-### TokArrOpen
+> **fromJs**(`read`: [`JsVal`](Namespace.types.md#jsval)): [`JSerde`](#jserde)
 
-#### Properties
+Load in-memory javascript types for serialization.
 
-| Property                      | Type                  |
-| ----------------------------- | --------------------- |
-| <a id="property-t-1"></a> `t` | [`ArrOpen`](#arropen) |
+###### Parameters
 
----
+| Parameter | Type                                |
+| --------- | ----------------------------------- |
+| `read`    | [`JsVal`](Namespace.types.md#jsval) |
 
-### TokF64
+###### Returns
 
-#### Properties
+[`JSerde`](#jserde)
 
-| Property                      | Type          |
-| ----------------------------- | ------------- |
-| <a id="property-t-2"></a> `t` | [`F64`](#f64) |
-| <a id="property-v"></a> `v`   | `number`      |
+##### fromReadStr()
 
----
+> **fromReadStr**(`read`: `ReadableStream`\<`string`>\>, `deserializer`: [`Deserializer`](Namespace.types.md#deserializer)): [`JSerde`](#jserde)
 
-### TokNull
+Deserialize from a streaming string source.
 
-#### Properties
+###### Parameters
 
-| Property                      | Type            |
-| ----------------------------- | --------------- |
-| <a id="property-t-3"></a> `t` | [`Null`](#null) |
+| Parameter      | Type                                              |
+| -------------- | ------------------------------------------------- |
+| `read`         | `ReadableStream`\<`string`\>                      |
+| `deserializer` | [`Deserializer`](Namespace.types.md#deserializer) |
 
-## Type Aliases
+###### Returns
 
-### JsArr
+[`JSerde`](#jserde)
 
-> **JsArr** = [`JsVal`](#jsval)[]
+##### fromReadUtf8()
 
----
+> **fromReadUtf8**(`read`: `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>\>\>, `deserializer`: [`Deserializer`](Namespace.types.md#deserializer)): [`JSerde`](#jserde)
 
-### JsVal
+Deserialize from a streaming utf-8 byte source.
 
-> **JsVal** = `null` \| `number` \| [`JsArr`](#jsarr)
+###### Parameters
 
----
+| Parameter      | Type                                                  |
+| -------------- | ----------------------------------------------------- |
+| `read`         | `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`\>\> |
+| `deserializer` | [`Deserializer`](Namespace.types.md#deserializer)     |
 
-### Tok
+###### Returns
 
-> **Tok** = [`TokNull`](#toknull) \| [`TokF64`](#tokf64) \| [`TokArrOpen`](#tokarropen) \| [`TokArrClose`](#tokarrclose)
+[`JSerde`](#jserde)
+
+##### fromStr()
+
+> **fromStr**(`read`: `string`, `deserializer`: [`Deserializer`](Namespace.types.md#deserializer)): [`JSerde`](#jserde)
+
+Deserialize from a complete in-memory string.
+
+###### Parameters
+
+| Parameter      | Type                                              |
+| -------------- | ------------------------------------------------- |
+| `read`         | `string`                                          |
+| `deserializer` | [`Deserializer`](Namespace.types.md#deserializer) |
+
+###### Returns
+
+[`JSerde`](#jserde)
+
+##### fromUtf8()
+
+> **fromUtf8**(`read`: `Uint8Array`, `deserializer`: [`Deserializer`](Namespace.types.md#deserializer)): [`JSerde`](#jserde)
+
+Deserialize from a complete in-memory utf-8 buffer.
+
+###### Parameters
+
+| Parameter      | Type                                              |
+| -------------- | ------------------------------------------------- |
+| `read`         | `Uint8Array`                                      |
+| `deserializer` | [`Deserializer`](Namespace.types.md#deserializer) |
+
+###### Returns
+
+[`JSerde`](#jserde)
+
+##### toJs()
+
+> **toJs**(): `Promise`\<[`JsVal`](Namespace.types.md#jsval)>\>
+
+Serialize / load data into in-memory javascript types.
+
+###### Returns
+
+`Promise`\<[`JsVal`](Namespace.types.md#jsval)\>
+
+##### toReadStr()
+
+> **toReadStr**(`serializer`: [`Serializer`](Namespace.types.md#serializer)): `ReadableStream`\<`string`>\>
+
+Serialize into a streaming string source.
+
+###### Parameters
+
+| Parameter    | Type                                          |
+| ------------ | --------------------------------------------- |
+| `serializer` | [`Serializer`](Namespace.types.md#serializer) |
+
+###### Returns
+
+`ReadableStream`\<`string`\>
+
+##### toReadUtf8()
+
+> **toReadUtf8**(`serializer`: [`Serializer`](Namespace.types.md#serializer)): `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>\>\>
+
+Serialize into a streaming utf-8 byte source.
+
+###### Parameters
+
+| Parameter    | Type                                          |
+| ------------ | --------------------------------------------- |
+| `serializer` | [`Serializer`](Namespace.types.md#serializer) |
+
+###### Returns
+
+`ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`\>\>
+
+##### toStr()
+
+> **toStr**(`serializer`: [`Serializer`](Namespace.types.md#serializer)): `Promise`\<`string`>\>
+
+Serialize into a complete in-memory string.
+
+###### Parameters
+
+| Parameter    | Type                                          |
+| ------------ | --------------------------------------------- |
+| `serializer` | [`Serializer`](Namespace.types.md#serializer) |
+
+###### Returns
+
+`Promise`\<`string`\>
+
+##### toUtf8()
+
+> **toUtf8**(`serializer`: [`Serializer`](Namespace.types.md#serializer)): `Promise`\<`Uint8Array`\<`ArrayBufferLike`>>\>\>
+
+Serialize into a complete in-memory utf-8 buffer.
+
+###### Parameters
+
+| Parameter    | Type                                          |
+| ------------ | --------------------------------------------- |
+| `serializer` | [`Serializer`](Namespace.types.md#serializer) |
+
+###### Returns
+
+`Promise`\<`Uint8Array`\<`ArrayBufferLike`\>\>
 
 ## Functions
 
-### jsToStream()
+### jserde()
 
-> **jsToStream**(`val`: [`JsVal`](#jsval)): `ReadableStream`\<[`Tok`](#tok)>\>
+> **jserde**(): [`JSerde`](#jserde)
 
-#### Parameters
+The main entrypoint into Javascript serialization and deserialization.
 
-| Parameter | Type              |
-| --------- | ----------------- |
-| `val`     | [`JsVal`](#jsval) |
-
-#### Returns
-
-`ReadableStream`\<[`Tok`](#tok)\>
-
----
-
-### streamToJs()
-
-> **streamToJs**(`stream`: `ReadableStream`\<[`Tok`](#tok)>\>): `Promise`\<[`JsVal`](#jsval)>\>
-
-#### Parameters
-
-| Parameter | Type                              |
-| --------- | --------------------------------- |
-| `stream`  | `ReadableStream`\<[`Tok`](#tok)\> |
+Call this function, then a `from*()` api to load data, then a `to*()` api
+to transform the data into the desired target.
 
 #### Returns
 
-`Promise`\<[`JsVal`](#jsval)\>
-
----
-
-### streamToString()
-
-> **streamToString**(`stream`: `ReadableStream`\<`string`>\>): `Promise`\<`string`>\>
-
-#### Parameters
-
-| Parameter | Type                         |
-| --------- | ---------------------------- |
-| `stream`  | `ReadableStream`\<`string`\> |
-
-#### Returns
-
-`Promise`\<`string`\>
+[`JSerde`](#jserde)

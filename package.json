@@ -20,7 +20,7 @@
   "scripts": {
     "fmt": "prettier . --write",
     "buildFull": "npm run doc && npm run fmt && tsc --build",
-    "build": "npm run doc && npm run fmt && tsc --build",
+    "build": "tsc --build && npm run doc && npm run fmt",
     "test": "npm run build && vitest run",
     "doc": "rimraf ./*.md && typedoc"
   },
