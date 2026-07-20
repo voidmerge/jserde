@@ -2,9 +2,15 @@
 
 ### DeserializerJson
 
+Utility class that implements string Deserialization.
+
+Also allows deserialization from binary streams, treating them as utf-8.
+
+To implement a Deserializer using this class, you must implement process().
+
 #### Extends
 
-- [`DeserializerUtil`](Namespace.types.md#deserializerutil)
+- [`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil)
 
 #### Constructors
 
@@ -18,7 +24,7 @@
 
 ###### Inherited from
 
-[`DeserializerUtil`](Namespace.types.md#deserializerutil).[`constructor`](Namespace.types.md#constructor-1)
+[`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil).[`constructor`](Namespace.types.md#constructor)
 
 #### Accessors
 
@@ -34,7 +40,7 @@
 
 ###### Inherited from
 
-[`DeserializerUtil`](Namespace.types.md#deserializerutil).[`buffer`](Namespace.types.md#buffer)
+[`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil).[`buffer`](Namespace.types.md#buffer)
 
 ##### cursor
 
@@ -48,7 +54,7 @@
 
 ###### Inherited from
 
-[`DeserializerUtil`](Namespace.types.md#deserializerutil).[`cursor`](Namespace.types.md#cursor)
+[`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil).[`cursor`](Namespace.types.md#cursor)
 
 #### Methods
 
@@ -68,7 +74,7 @@
 
 ###### Inherited from
 
-[`DeserializerUtil`](Namespace.types.md#deserializerutil).[`advance`](Namespace.types.md#advance)
+[`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil).[`advance`](Namespace.types.md#advance)
 
 ##### append()
 
@@ -86,7 +92,7 @@
 
 ###### Inherited from
 
-[`DeserializerUtil`](Namespace.types.md#deserializerutil).[`append`](Namespace.types.md#append-1)
+[`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil).[`append`](Namespace.types.md#append)
 
 ##### match()
 
@@ -104,7 +110,7 @@
 
 ###### Inherited from
 
-[`DeserializerUtil`](Namespace.types.md#deserializerutil).[`match`](Namespace.types.md#match)
+[`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil).[`match`](Namespace.types.md#match)
 
 ##### process()
 
@@ -122,11 +128,23 @@
 
 ###### Overrides
 
-[`DeserializerUtil`](Namespace.types.md#deserializerutil).[`process`](Namespace.types.md#process-1)
+[`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil).[`process`](Namespace.types.md#process)
 
-##### transformStream()
+##### transformStreamBin()
 
-> **transformStream**(): `TransformStream`\<`string`, [`Tok`](Namespace.types.md#tok)>\>
+> **transformStreamBin**(): `TransformStream`\<`Uint8Array`\<`ArrayBufferLike`>\>, [`Tok`](Namespace.types.md#tok)>\>
+
+###### Returns
+
+`TransformStream`\<`Uint8Array`\<`ArrayBufferLike`\>, [`Tok`](Namespace.types.md#tok)\>
+
+###### Inherited from
+
+[`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil).[`transformStreamBin`](Namespace.types.md#transformstreambin)
+
+##### transformStreamStr()
+
+> **transformStreamStr**(): `TransformStream`\<`string`, [`Tok`](Namespace.types.md#tok)>\>
 
 ###### Returns
 
@@ -134,15 +152,21 @@
 
 ###### Inherited from
 
-[`DeserializerUtil`](Namespace.types.md#deserializerutil).[`transformStream`](Namespace.types.md#transformstream-1)
+[`DeserializerStrUtil`](Namespace.types.md#deserializerstrutil).[`transformStreamStr`](Namespace.types.md#transformstreamstr)
 
 ---
 
 ### SerializerJson
 
+Utility class that implements string Serialization.
+
+Also allows Serialization to binary streams, treating them as utf-8.
+
+To implement a Serializer using this class, you must implement process().
+
 #### Extends
 
-- [`SerializerUtil`](Namespace.types.md#serializerutil)
+- [`SerializerStrUtil`](Namespace.types.md#serializerstrutil)
 
 #### Constructors
 
@@ -156,7 +180,7 @@
 
 ###### Inherited from
 
-[`SerializerUtil`](Namespace.types.md#serializerutil).[`constructor`](Namespace.types.md#constructor-3)
+[`SerializerStrUtil`](Namespace.types.md#serializerstrutil).[`constructor`](Namespace.types.md#constructor-1)
 
 #### Accessors
 
@@ -172,7 +196,7 @@
 
 ###### Inherited from
 
-[`SerializerUtil`](Namespace.types.md#serializerutil).[`tokens`](Namespace.types.md#tokens)
+[`SerializerStrUtil`](Namespace.types.md#serializerstrutil).[`tokens`](Namespace.types.md#tokens)
 
 #### Methods
 
@@ -192,7 +216,7 @@
 
 ###### Inherited from
 
-[`SerializerUtil`](Namespace.types.md#serializerutil).[`append`](Namespace.types.md#append-3)
+[`SerializerStrUtil`](Namespace.types.md#serializerstrutil).[`append`](Namespace.types.md#append-1)
 
 ##### process()
 
@@ -210,7 +234,7 @@
 
 ###### Overrides
 
-[`SerializerUtil`](Namespace.types.md#serializerutil).[`process`](Namespace.types.md#process-3)
+[`SerializerStrUtil`](Namespace.types.md#serializerstrutil).[`process`](Namespace.types.md#process-1)
 
 ##### shift()
 
@@ -222,11 +246,23 @@
 
 ###### Inherited from
 
-[`SerializerUtil`](Namespace.types.md#serializerutil).[`shift`](Namespace.types.md#shift)
+[`SerializerStrUtil`](Namespace.types.md#serializerstrutil).[`shift`](Namespace.types.md#shift)
 
-##### transformStream()
+##### transformStreamBin()
 
-> **transformStream**(): `TransformStream`\<[`Tok`](Namespace.types.md#tok), `string`>\>
+> **transformStreamBin**(): `TransformStream`\<[`Tok`](Namespace.types.md#tok), `Uint8Array`\<`ArrayBufferLike`>>\>\>
+
+###### Returns
+
+`TransformStream`\<[`Tok`](Namespace.types.md#tok), `Uint8Array`\<`ArrayBufferLike`\>\>
+
+###### Inherited from
+
+[`SerializerStrUtil`](Namespace.types.md#serializerstrutil).[`transformStreamBin`](Namespace.types.md#transformstreambin-1)
+
+##### transformStreamStr()
+
+> **transformStreamStr**(): `TransformStream`\<[`Tok`](Namespace.types.md#tok), `string`>\>
 
 ###### Returns
 
@@ -234,4 +270,4 @@
 
 ###### Inherited from
 
-[`SerializerUtil`](Namespace.types.md#serializerutil).[`transformStream`](Namespace.types.md#transformstream-3)
+[`SerializerStrUtil`](Namespace.types.md#serializerstrutil).[`transformStreamStr`](Namespace.types.md#transformstreamstr-1)

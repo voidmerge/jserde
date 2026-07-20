@@ -31,6 +31,23 @@ Javascript Serialization and Deserialization utility.
 
 #### Methods
 
+##### fromBin()
+
+> **fromBin**(`read`: `Uint8Array`, `deserializer`: [`DeserializerBin`](Namespace.types.md#deserializerbin)): [`JSerde`](#jserde)
+
+Deserialize from a complete in-memory utf-8 buffer.
+
+###### Parameters
+
+| Parameter      | Type                                                    |
+| -------------- | ------------------------------------------------------- |
+| `read`         | `Uint8Array`                                            |
+| `deserializer` | [`DeserializerBin`](Namespace.types.md#deserializerbin) |
+
+###### Returns
+
+[`JSerde`](#jserde)
+
 ##### fromJs()
 
 > **fromJs**(`read`: [`JsVal`](Namespace.types.md#jsval)): [`JSerde`](#jserde)
@@ -47,35 +64,35 @@ Load in-memory javascript types for serialization.
 
 [`JSerde`](#jserde)
 
-##### fromReadStr()
+##### fromReadBin()
 
-> **fromReadStr**(`read`: `ReadableStream`\<`string`>\>, `deserializer`: [`Deserializer`](Namespace.types.md#deserializer)): [`JSerde`](#jserde)
-
-Deserialize from a streaming string source.
-
-###### Parameters
-
-| Parameter      | Type                                              |
-| -------------- | ------------------------------------------------- |
-| `read`         | `ReadableStream`\<`string`\>                      |
-| `deserializer` | [`Deserializer`](Namespace.types.md#deserializer) |
-
-###### Returns
-
-[`JSerde`](#jserde)
-
-##### fromReadUtf8()
-
-> **fromReadUtf8**(`read`: `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>\>\>, `deserializer`: [`Deserializer`](Namespace.types.md#deserializer)): [`JSerde`](#jserde)
+> **fromReadBin**(`read`: `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>\>\>, `deserializer`: [`DeserializerBin`](Namespace.types.md#deserializerbin)): [`JSerde`](#jserde)
 
 Deserialize from a streaming utf-8 byte source.
 
 ###### Parameters
 
-| Parameter      | Type                                                  |
-| -------------- | ----------------------------------------------------- |
-| `read`         | `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`\>\> |
-| `deserializer` | [`Deserializer`](Namespace.types.md#deserializer)     |
+| Parameter      | Type                                                    |
+| -------------- | ------------------------------------------------------- |
+| `read`         | `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`\>\>   |
+| `deserializer` | [`DeserializerBin`](Namespace.types.md#deserializerbin) |
+
+###### Returns
+
+[`JSerde`](#jserde)
+
+##### fromReadStr()
+
+> **fromReadStr**(`read`: `ReadableStream`\<`string`>\>, `deserializer`: [`DeserializerStr`](Namespace.types.md#deserializerstr)): [`JSerde`](#jserde)
+
+Deserialize from a streaming string source.
+
+###### Parameters
+
+| Parameter      | Type                                                    |
+| -------------- | ------------------------------------------------------- |
+| `read`         | `ReadableStream`\<`string`\>                            |
+| `deserializer` | [`DeserializerStr`](Namespace.types.md#deserializerstr) |
 
 ###### Returns
 
@@ -83,37 +100,36 @@ Deserialize from a streaming utf-8 byte source.
 
 ##### fromStr()
 
-> **fromStr**(`read`: `string`, `deserializer`: [`Deserializer`](Namespace.types.md#deserializer)): [`JSerde`](#jserde)
+> **fromStr**(`read`: `string`, `deserializer`: [`DeserializerStr`](Namespace.types.md#deserializerstr)): [`JSerde`](#jserde)
 
 Deserialize from a complete in-memory string.
 
 ###### Parameters
 
-| Parameter      | Type                                              |
-| -------------- | ------------------------------------------------- |
-| `read`         | `string`                                          |
-| `deserializer` | [`Deserializer`](Namespace.types.md#deserializer) |
+| Parameter      | Type                                                    |
+| -------------- | ------------------------------------------------------- |
+| `read`         | `string`                                                |
+| `deserializer` | [`DeserializerStr`](Namespace.types.md#deserializerstr) |
 
 ###### Returns
 
 [`JSerde`](#jserde)
 
-##### fromUtf8()
+##### toBin()
 
-> **fromUtf8**(`read`: `Uint8Array`, `deserializer`: [`Deserializer`](Namespace.types.md#deserializer)): [`JSerde`](#jserde)
+> **toBin**(`serializer`: [`SerializerBin`](Namespace.types.md#serializerbin)): `Promise`\<`Uint8Array`\<`ArrayBufferLike`>>\>\>
 
-Deserialize from a complete in-memory utf-8 buffer.
+Serialize into a complete in-memory utf-8 buffer.
 
 ###### Parameters
 
-| Parameter      | Type                                              |
-| -------------- | ------------------------------------------------- |
-| `read`         | `Uint8Array`                                      |
-| `deserializer` | [`Deserializer`](Namespace.types.md#deserializer) |
+| Parameter    | Type                                                |
+| ------------ | --------------------------------------------------- |
+| `serializer` | [`SerializerBin`](Namespace.types.md#serializerbin) |
 
 ###### Returns
 
-[`JSerde`](#jserde)
+`Promise`\<`Uint8Array`\<`ArrayBufferLike`\>\>
 
 ##### toJs()
 
@@ -125,69 +141,53 @@ Serialize / load data into in-memory javascript types.
 
 `Promise`\<[`JsVal`](Namespace.types.md#jsval)\>
 
-##### toReadStr()
+##### toReadBin()
 
-> **toReadStr**(`serializer`: [`Serializer`](Namespace.types.md#serializer)): `ReadableStream`\<`string`>\>
-
-Serialize into a streaming string source.
-
-###### Parameters
-
-| Parameter    | Type                                          |
-| ------------ | --------------------------------------------- |
-| `serializer` | [`Serializer`](Namespace.types.md#serializer) |
-
-###### Returns
-
-`ReadableStream`\<`string`\>
-
-##### toReadUtf8()
-
-> **toReadUtf8**(`serializer`: [`Serializer`](Namespace.types.md#serializer)): `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>\>\>
+> **toReadBin**(`serializer`: [`SerializerBin`](Namespace.types.md#serializerbin)): `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`>>\>\>
 
 Serialize into a streaming utf-8 byte source.
 
 ###### Parameters
 
-| Parameter    | Type                                          |
-| ------------ | --------------------------------------------- |
-| `serializer` | [`Serializer`](Namespace.types.md#serializer) |
+| Parameter    | Type                                                |
+| ------------ | --------------------------------------------------- |
+| `serializer` | [`SerializerBin`](Namespace.types.md#serializerbin) |
 
 ###### Returns
 
 `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`\>\>
 
+##### toReadStr()
+
+> **toReadStr**(`serializer`: [`SerializerStr`](Namespace.types.md#serializerstr)): `ReadableStream`\<`string`>\>
+
+Serialize into a streaming string source.
+
+###### Parameters
+
+| Parameter    | Type                                                |
+| ------------ | --------------------------------------------------- |
+| `serializer` | [`SerializerStr`](Namespace.types.md#serializerstr) |
+
+###### Returns
+
+`ReadableStream`\<`string`\>
+
 ##### toStr()
 
-> **toStr**(`serializer`: [`Serializer`](Namespace.types.md#serializer)): `Promise`\<`string`>\>
+> **toStr**(`serializer`: [`SerializerStr`](Namespace.types.md#serializerstr)): `Promise`\<`string`>\>
 
 Serialize into a complete in-memory string.
 
 ###### Parameters
 
-| Parameter    | Type                                          |
-| ------------ | --------------------------------------------- |
-| `serializer` | [`Serializer`](Namespace.types.md#serializer) |
+| Parameter    | Type                                                |
+| ------------ | --------------------------------------------------- |
+| `serializer` | [`SerializerStr`](Namespace.types.md#serializerstr) |
 
 ###### Returns
 
 `Promise`\<`string`\>
-
-##### toUtf8()
-
-> **toUtf8**(`serializer`: [`Serializer`](Namespace.types.md#serializer)): `Promise`\<`Uint8Array`\<`ArrayBufferLike`>>\>\>
-
-Serialize into a complete in-memory utf-8 buffer.
-
-###### Parameters
-
-| Parameter    | Type                                          |
-| ------------ | --------------------------------------------- |
-| `serializer` | [`Serializer`](Namespace.types.md#serializer) |
-
-###### Returns
-
-`Promise`\<`Uint8Array`\<`ArrayBufferLike`\>\>
 
 ## Functions
 

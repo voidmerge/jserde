@@ -1,6 +1,6 @@
-import { SerializerUtil, DeserializerUtil, TokTy, Tok } from './types.js';
+import { SerializerStrUtil, DeserializerStrUtil, TokTy, Tok } from './types.js';
 
-export class SerializerJson extends SerializerUtil {
+export class SerializerJson extends SerializerStrUtil {
   #state: ('arr1' | 'arrN')[] = [];
 
   process(final: boolean): string[] {
@@ -69,7 +69,7 @@ const RE_FIN: [string, RegExp][] = [
   [TokTy.ArrClose, /\]/uy],
 ];
 
-export class DeserializerJson extends DeserializerUtil {
+export class DeserializerJson extends DeserializerStrUtil {
   process(final: boolean): Tok[] {
     const out: Tok[] = [];
     const reList = final ? RE_FIN : RE;

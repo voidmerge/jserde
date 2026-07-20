@@ -30,85 +30,32 @@
 
 ## Classes
 
-### Deserializer
+### DeserializerStrUtil
 
-#### Extended by
+Utility class that implements string Deserialization.
 
-- [`DeserializerUtil`](#deserializerutil)
+Also allows deserialization from binary streams, treating them as utf-8.
 
-#### Constructors
-
-##### Constructor
-
-> **new Deserializer**(): [`Deserializer`](#deserializer)
-
-###### Returns
-
-[`Deserializer`](#deserializer)
-
-#### Methods
-
-##### append()
-
-> **append**(`chunk`: `string`): `void`
-
-###### Parameters
-
-| Parameter | Type     |
-| --------- | -------- |
-| `chunk`   | `string` |
-
-###### Returns
-
-`void`
-
-##### process()
-
-> **process**(`final`: `boolean`): [`Tok`](#tok)[]
-
-###### Parameters
-
-| Parameter | Type      |
-| --------- | --------- |
-| `final`   | `boolean` |
-
-###### Returns
-
-[`Tok`](#tok)[]
-
-##### transformStream()
-
-> **transformStream**(): `TransformStream`\<`string`, [`Tok`](#tok)>\>
-
-###### Returns
-
-`TransformStream`\<`string`, [`Tok`](#tok)\>
-
----
-
-### DeserializerUtil
-
-#### Extends
-
-- [`Deserializer`](#deserializer)
+To implement a Deserializer using this class, you must implement process().
 
 #### Extended by
 
 - [`DeserializerJson`](Namespace.json.md#deserializerjson)
 
+#### Implements
+
+- [`DeserializerStr`](#deserializerstr)
+- [`DeserializerBin`](#deserializerbin)
+
 #### Constructors
 
 ##### Constructor
 
-> **new DeserializerUtil**(): [`DeserializerUtil`](#deserializerutil)
+> **new DeserializerStrUtil**(): [`DeserializerStrUtil`](#deserializerstrutil)
 
 ###### Returns
 
-[`DeserializerUtil`](#deserializerutil)
-
-###### Inherited from
-
-[`Deserializer`](#deserializer).[`constructor`](#constructor)
+[`DeserializerStrUtil`](#deserializerstrutil)
 
 #### Accessors
 
@@ -162,10 +109,6 @@
 
 `void`
 
-###### Overrides
-
-[`Deserializer`](#deserializer).[`append`](#append)
-
 ##### match()
 
 > **match**(`re`: `RegExp`): `string` \| `null`
@@ -194,103 +137,58 @@
 
 [`Tok`](#tok)[]
 
-###### Inherited from
+##### transformStreamBin()
 
-[`Deserializer`](#deserializer).[`process`](#process)
+> **transformStreamBin**(): `TransformStream`\<`Uint8Array`\<`ArrayBufferLike`>\>, [`Tok`](#tok)>\>
 
-##### transformStream()
+###### Returns
 
-> **transformStream**(): `TransformStream`\<`string`, [`Tok`](#tok)>\>
+`TransformStream`\<`Uint8Array`\<`ArrayBufferLike`\>, [`Tok`](#tok)\>
+
+###### Implementation of
+
+[`DeserializerBin`](#deserializerbin).[`transformStreamBin`](#transformstreambin-2)
+
+##### transformStreamStr()
+
+> **transformStreamStr**(): `TransformStream`\<`string`, [`Tok`](#tok)>\>
 
 ###### Returns
 
 `TransformStream`\<`string`, [`Tok`](#tok)\>
 
-###### Inherited from
+###### Implementation of
 
-[`Deserializer`](#deserializer).[`transformStream`](#transformstream)
-
----
-
-### Serializer
-
-#### Extended by
-
-- [`SerializerUtil`](#serializerutil)
-
-#### Constructors
-
-##### Constructor
-
-> **new Serializer**(): [`Serializer`](#serializer)
-
-###### Returns
-
-[`Serializer`](#serializer)
-
-#### Methods
-
-##### append()
-
-> **append**(`token`: [`Tok`](#tok)): `void`
-
-###### Parameters
-
-| Parameter | Type          |
-| --------- | ------------- |
-| `token`   | [`Tok`](#tok) |
-
-###### Returns
-
-`void`
-
-##### process()
-
-> **process**(`final`: `boolean`): `string`[]
-
-###### Parameters
-
-| Parameter | Type      |
-| --------- | --------- |
-| `final`   | `boolean` |
-
-###### Returns
-
-`string`[]
-
-##### transformStream()
-
-> **transformStream**(): `TransformStream`\<[`Tok`](#tok), `string`>\>
-
-###### Returns
-
-`TransformStream`\<[`Tok`](#tok), `string`\>
+[`DeserializerStr`](#deserializerstr).[`transformStreamStr`](#transformstreamstr-2)
 
 ---
 
-### SerializerUtil
+### SerializerStrUtil
 
-#### Extends
+Utility class that implements string Serialization.
 
-- [`Serializer`](#serializer)
+Also allows Serialization to binary streams, treating them as utf-8.
+
+To implement a Serializer using this class, you must implement process().
 
 #### Extended by
 
 - [`SerializerJson`](Namespace.json.md#serializerjson)
 
+#### Implements
+
+- [`SerializerStr`](#serializerstr)
+- [`SerializerBin`](#serializerbin)
+
 #### Constructors
 
 ##### Constructor
 
-> **new SerializerUtil**(): [`SerializerUtil`](#serializerutil)
+> **new SerializerStrUtil**(): [`SerializerStrUtil`](#serializerstrutil)
 
 ###### Returns
 
-[`SerializerUtil`](#serializerutil)
-
-###### Inherited from
-
-[`Serializer`](#serializer).[`constructor`](#constructor-2)
+[`SerializerStrUtil`](#serializerstrutil)
 
 #### Accessors
 
@@ -320,10 +218,6 @@
 
 `void`
 
-###### Overrides
-
-[`Serializer`](#serializer).[`append`](#append-2)
-
 ##### process()
 
 > **process**(`final`: `boolean`): `string`[]
@@ -338,10 +232,6 @@
 
 `string`[]
 
-###### Inherited from
-
-[`Serializer`](#serializer).[`process`](#process-2)
-
 ##### shift()
 
 > **shift**(): [`Tok`](#tok) \| `undefined`
@@ -350,19 +240,87 @@
 
 [`Tok`](#tok) \| `undefined`
 
-##### transformStream()
+##### transformStreamBin()
 
-> **transformStream**(): `TransformStream`\<[`Tok`](#tok), `string`>\>
+> **transformStreamBin**(): `TransformStream`\<[`Tok`](#tok), `Uint8Array`\<`ArrayBufferLike`>>\>\>
+
+###### Returns
+
+`TransformStream`\<[`Tok`](#tok), `Uint8Array`\<`ArrayBufferLike`\>\>
+
+###### Implementation of
+
+[`SerializerBin`](#serializerbin).[`transformStreamBin`](#transformstreambin-3)
+
+##### transformStreamStr()
+
+> **transformStreamStr**(): `TransformStream`\<[`Tok`](#tok), `string`>\>
 
 ###### Returns
 
 `TransformStream`\<[`Tok`](#tok), `string`\>
 
-###### Inherited from
+###### Implementation of
 
-[`Serializer`](#serializer).[`transformStream`](#transformstream-2)
+[`SerializerStr`](#serializerstr).[`transformStreamStr`](#transformstreamstr-3)
 
 ## Interfaces
+
+### DeserializerBin
+
+#### Methods
+
+##### transformStreamBin()
+
+> **transformStreamBin**(): `TransformStream`\<`Uint8Array`\<`ArrayBufferLike`>\>, [`Tok`](#tok)>\>
+
+###### Returns
+
+`TransformStream`\<`Uint8Array`\<`ArrayBufferLike`\>, [`Tok`](#tok)\>
+
+---
+
+### DeserializerStr
+
+#### Methods
+
+##### transformStreamStr()
+
+> **transformStreamStr**(): `TransformStream`\<`string`, [`Tok`](#tok)>\>
+
+###### Returns
+
+`TransformStream`\<`string`, [`Tok`](#tok)\>
+
+---
+
+### SerializerBin
+
+#### Methods
+
+##### transformStreamBin()
+
+> **transformStreamBin**(): `TransformStream`\<[`Tok`](#tok), `Uint8Array`\<`ArrayBufferLike`>>\>\>
+
+###### Returns
+
+`TransformStream`\<[`Tok`](#tok), `Uint8Array`\<`ArrayBufferLike`\>\>
+
+---
+
+### SerializerStr
+
+#### Methods
+
+##### transformStreamStr()
+
+> **transformStreamStr**(): `TransformStream`\<[`Tok`](#tok), `string`>\>
+
+###### Returns
+
+`TransformStream`\<[`Tok`](#tok), `string`\>
+
+---
 
 ### TokArrClose
 
@@ -442,3 +400,28 @@
 ### Tok
 
 > **Tok** = [`TokNull`](#toknull) \| [`TokBool`](#tokbool) \| [`TokF64`](#tokf64) \| [`TokStr`](#tokstr) \| [`TokArrOpen`](#tokarropen) \| [`TokArrClose`](#tokarrclose)
+
+## Functions
+
+### transformChain()
+
+> **transformChain**\<`Input`, `Shared`, `Output`>\>(`t1`: `TransformStream`\<`Input`, `Shared`>\>, `t2`: `TransformStream`\<`Shared`, `Output`>\>): `TransformStream`\<`Input`, `Output`>\>
+
+#### Type Parameters
+
+| Type Parameter |
+| -------------- |
+| `Input`        |
+| `Shared`       |
+| `Output`       |
+
+#### Parameters
+
+| Parameter | Type                                    |
+| --------- | --------------------------------------- |
+| `t1`      | `TransformStream`\<`Input`, `Shared`\>  |
+| `t2`      | `TransformStream`\<`Shared`, `Output`\> |
+
+#### Returns
+
+`TransformStream`\<`Input`, `Output`\>

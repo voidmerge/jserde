@@ -54,7 +54,7 @@ export function jserde(): JSerde {
       return self;
     },
 
-    fromStr(read: string, deserializer: types.Deserializer): JSerde {
+    fromStr(read: string, deserializer: types.DeserializerStr): JSerde {
       let done = false;
 
       _read = new ReadableStream({
@@ -66,15 +66,15 @@ export function jserde(): JSerde {
             done = true;
           }
         },
-      }).pipeThrough(deserializer.transformStream());
+      }).pipeThrough(deserializer.transformStreamStr());
 
       return self;
     },
 
-    fromUtf8(read: Uint8Array, deserializer: types.Deserializer): JSerde {
+    fromBin(read: Uint8Array, deserializer: types.DeserializerBin): JSerde {
       let done = false;
 
-      return self.fromReadUtf8(
+      return self.fromReadBin(
         new ReadableStream({
           async pull(controller) {
             if (done) {
@@ -91,24 +91,18 @@ export function jserde(): JSerde {
 
     fromReadStr(
       read: ReadableStream<string>,
-      deserializer: types.Deserializer,
+      deserializer: types.DeserializerStr,
     ): JSerde {
-      _read = read.pipeThrough(deserializer.transformStream());
+      _read = read.pipeThrough(deserializer.transformStreamStr());
 
       return self;
     },
 
-    fromReadUtf8(
+    fromReadBin(
       read: ReadableStream<Uint8Array>,
-      deserializer: types.Deserializer,
+      deserializer: types.DeserializerBin,
     ): JSerde {
-      const decoder = new TextDecoderStream() as TransformStream<
-        Uint8Array,
-        string
-      >;
-      _read = read
-        .pipeThrough(decoder)
-        .pipeThrough(deserializer.transformStream());
+      _read = read.pipeThrough(deserializer.transformStreamBin());
 
       return self;
     },
@@ -117,22 +111,22 @@ export function jserde(): JSerde {
       return await stream.streamToJs(getRead());
     },
 
-    async toStr(serializer: types.Serializer): Promise<string> {
+    async toStr(serializer: types.SerializerStr): Promise<string> {
       return await stream.streamToString(self.toReadStr(serializer));
     },
 
-    async toUtf8(serializer: types.Serializer): Promise<Uint8Array> {
+    async toBin(serializer: types.SerializerBin): Promise<Uint8Array> {
       return new Uint8Array(
-        await new Response(self.toReadUtf8(serializer)).arrayBuffer(),
+        await new Response(self.toReadBin(serializer)).arrayBuffer(),
       );
     },
 
-    toReadStr(serializer: types.Serializer): ReadableStream<string> {
-      return getRead().pipeThrough(serializer.transformStream());
+    toReadStr(serializer: types.SerializerStr): ReadableStream<string> {
+      return getRead().pipeThrough(serializer.transformStreamStr());
     },
 
-    toReadUtf8(serializer: types.Serializer): ReadableStream<Uint8Array> {
-      return self.toReadStr(serializer).pipeThrough(new TextEncoderStream());
+    toReadBin(serializer: types.SerializerBin): ReadableStream<Uint8Array> {
+      return getRead().pipeThrough(serializer.transformStreamBin());
     },
   };
 
@@ -151,27 +145,27 @@ export interface JSerde {
   /**
    * Deserialize from a complete in-memory string.
    */
-  fromStr(read: string, deserializer: types.Deserializer): JSerde;
+  fromStr(read: string, deserializer: types.DeserializerStr): JSerde;
 
   /**
    * Deserialize from a complete in-memory utf-8 buffer.
    */
-  fromUtf8(read: Uint8Array, deserializer: types.Deserializer): JSerde;
+  fromBin(read: Uint8Array, deserializer: types.DeserializerBin): JSerde;
 
   /**
    * Deserialize from a streaming string source.
    */
   fromReadStr(
     read: ReadableStream<string>,
-    deserializer: types.Deserializer,
+    deserializer: types.DeserializerStr,
   ): JSerde;
 
   /**
    * Deserialize from a streaming utf-8 byte source.
    */
-  fromReadUtf8(
+  fromReadBin(
     read: ReadableStream<Uint8Array>,
-    deserializer: types.Deserializer,
+    deserializer: types.DeserializerBin,
   ): JSerde;
 
   /**
@@ -182,20 +176,20 @@ export interface JSerde {
   /**
    * Serialize into a complete in-memory string.
    */
-  toStr(serializer: types.Serializer): Promise<string>;
+  toStr(serializer: types.SerializerStr): Promise<string>;
 
   /**
    * Serialize into a complete in-memory utf-8 buffer.
    */
-  toUtf8(serializer: types.Serializer): Promise<Uint8Array>;
+  toBin(serializer: types.SerializerBin): Promise<Uint8Array>;
 
   /**
    * Serialize into a streaming string source.
    */
-  toReadStr(serializer: types.Serializer): ReadableStream<string>;
+  toReadStr(serializer: types.SerializerStr): ReadableStream<string>;
 
   /**
    * Serialize into a streaming utf-8 byte source.
    */
-  toReadUtf8(serializer: types.Serializer): ReadableStream<Uint8Array>;
+  toReadBin(serializer: types.SerializerBin): ReadableStream<Uint8Array>;
 }

@@ -20,7 +20,7 @@ describe('suite', () => {
         }
         controller.close();
       },
-    }).pipeThrough(new json.SerializerJson().transformStream());
+    }).pipeThrough(new json.SerializerJson().transformStreamStr());
 
     console.log('GOT', await stream.streamToString(res));
 
@@ -36,9 +36,7 @@ describe('suite', () => {
             }
             controller.close();
           },
-        })
-          .pipeThrough(new TextDecoderStream())
-          .pipeThrough(new json.DeserializerJson().transformStream()),
+        }).pipeThrough(new json.DeserializerJson().transformStreamBin()),
       ),
     );
 
