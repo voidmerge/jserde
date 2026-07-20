@@ -24,6 +24,14 @@
 
 > **Null**: `"null"`
 
+##### ObjClose
+
+> **ObjClose**: `"}"`
+
+##### ObjOpen
+
+> **ObjOpen**: `"{"`
+
 ##### Str
 
 > **Str**: `"str"`
@@ -374,13 +382,33 @@ To implement a Serializer using this class, you must implement process().
 
 ---
 
+### TokObjClose
+
+#### Properties
+
+| Property                      | Type                    |
+| ----------------------------- | ----------------------- |
+| <a id="property-t-5"></a> `t` | [`ObjClose`](#objclose) |
+
+---
+
+### TokObjOpen
+
+#### Properties
+
+| Property                      | Type                  |
+| ----------------------------- | --------------------- |
+| <a id="property-t-6"></a> `t` | [`ObjOpen`](#objopen) |
+
+---
+
 ### TokStr
 
 #### Properties
 
 | Property                      | Type          |
 | ----------------------------- | ------------- |
-| <a id="property-t-5"></a> `t` | [`Str`](#str) |
+| <a id="property-t-7"></a> `t` | [`Str`](#str) |
 | <a id="property-v-2"></a> `v` | `string`      |
 
 ## Type Aliases
@@ -391,15 +419,25 @@ To implement a Serializer using this class, you must implement process().
 
 ---
 
+### JsObj
+
+> **JsObj** = `object`
+
+#### Index Signature
+
+\[`key`: `string`\]: [`JsVal`](#jsval)
+
+---
+
 ### JsVal
 
-> **JsVal** = `null` \| `boolean` \| `number` \| `string` \| [`JsArr`](#jsarr)
+> **JsVal** = `null` \| `boolean` \| `number` \| `string` \| [`JsArr`](#jsarr) \| [`JsObj`](#jsobj)
 
 ---
 
 ### Tok
 
-> **Tok** = [`TokNull`](#toknull) \| [`TokBool`](#tokbool) \| [`TokF64`](#tokf64) \| [`TokStr`](#tokstr) \| [`TokArrOpen`](#tokarropen) \| [`TokArrClose`](#tokarrclose)
+> **Tok** = [`TokNull`](#toknull) \| [`TokBool`](#tokbool) \| [`TokF64`](#tokf64) \| [`TokStr`](#tokstr) \| [`TokArrOpen`](#tokarropen) \| [`TokArrClose`](#tokarrclose) \| [`TokObjOpen`](#tokobjopen) \| [`TokObjClose`](#tokobjclose)
 
 ## Functions
 

@@ -1,7 +1,7 @@
 import { SerializerStrUtil, DeserializerStrUtil, TokTy, Tok } from './types.js';
 
 export class SerializerJson extends SerializerStrUtil {
-  #state: ('arr1' | 'arrN')[] = [];
+  #state: ('arr1' | 'arrN' | 'obj1' | 'objNk' | 'objNv')[] = [];
 
   process(final: boolean): string[] {
     const out = [];
@@ -16,6 +16,12 @@ export class SerializerJson extends SerializerStrUtil {
             this.#state.shift();
           }
           continue;
+        case TokTy.ObjClose:
+          out.push('}');
+          if (this.#state[0].startsWith('obj')) {
+            this.#state.shift();
+          }
+          continue;
       }
 
       if (this.#state[0] === 'arr1') {
@@ -23,6 +29,17 @@ export class SerializerJson extends SerializerStrUtil {
         this.#state.unshift('arrN');
       } else if (this.#state[0] === 'arrN') {
         out.push(',');
+      } else if (this.#state[0] === 'obj1') {
+        this.#state.shift();
+        this.#state.unshift('objNv');
+      } else if (this.#state[0] === 'objNk') {
+        out.push(',');
+        this.#state.shift();
+        this.#state.unshift('objNv');
+      } else if (this.#state[0] === 'objNv') {
+        out.push(':');
+        this.#state.shift();
+        this.#state.unshift('objNk');
       }
 
       switch (tok.t) {
@@ -42,6 +59,10 @@ export class SerializerJson extends SerializerStrUtil {
           out.push('[');
           this.#state.unshift('arr1');
           continue;
+        case TokTy.ObjOpen:
+          out.push('{');
+          this.#state.unshift('obj1');
+          continue;
       }
     }
 
@@ -57,6 +78,8 @@ const RE: [string, RegExp][] = [
   [TokTy.Str, /"(?:[^"\\]|\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))*"/uy],
   [TokTy.ArrOpen, /\[/uy],
   [TokTy.ArrClose, /\]/uy],
+  [TokTy.ObjOpen, /\{/uy],
+  [TokTy.ObjClose, /\}/uy],
 ];
 
 const RE_FIN: [string, RegExp][] = [
@@ -67,6 +90,8 @@ const RE_FIN: [string, RegExp][] = [
   [TokTy.Str, /"(?:[^"\\]|\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))*"/uy],
   [TokTy.ArrOpen, /\[/uy],
   [TokTy.ArrClose, /\]/uy],
+  [TokTy.ObjOpen, /\{/uy],
+  [TokTy.ObjClose, /\}/uy],
 ];
 
 export class DeserializerJson extends DeserializerStrUtil {
@@ -99,6 +124,12 @@ export class DeserializerJson extends DeserializerStrUtil {
               out.push({ t });
               break;
             case TokTy.ArrClose:
+              out.push({ t });
+              break;
+            case TokTy.ObjOpen:
+              out.push({ t });
+              break;
+            case TokTy.ObjClose:
               out.push({ t });
               break;
           }

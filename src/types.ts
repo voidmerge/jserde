@@ -1,5 +1,6 @@
-export type JsVal = null | boolean | number | string | JsArr;
+export type JsVal = null | boolean | number | string | JsArr | JsObj;
 export type JsArr = JsVal[];
+export type JsObj = { [key: string]: JsVal };
 
 export enum TokTy {
   Null = 'null',
@@ -8,10 +9,19 @@ export enum TokTy {
   Str = 'str',
   ArrOpen = '[',
   ArrClose = ']',
+  ObjOpen = '{',
+  ObjClose = '}',
 }
 
 export type Tok =
-  TokNull | TokBool | TokF64 | TokStr | TokArrOpen | TokArrClose;
+  | TokNull
+  | TokBool
+  | TokF64
+  | TokStr
+  | TokArrOpen
+  | TokArrClose
+  | TokObjOpen
+  | TokObjClose;
 
 export interface TokNull {
   t: TokTy.Null;
@@ -38,6 +48,14 @@ export interface TokArrOpen {
 
 export interface TokArrClose {
   t: TokTy.ArrClose;
+}
+
+export interface TokObjOpen {
+  t: TokTy.ObjOpen;
+}
+
+export interface TokObjClose {
+  t: TokTy.ObjClose;
 }
 
 export function transformChain<Input, Shared, Output>(

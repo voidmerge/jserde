@@ -9,6 +9,8 @@ describe('json', () => {
       [false, 'false'],
       ['test', '"test"'],
       [['hello', 'world'], '["hello","world"]'],
+      [{ hello: 'world' }, '{"hello":"world"}'],
+      [{ hello: 'world', foo: 'bar' }, '{"hello":"world","foo":"bar"}'],
     ];
 
     for (const [val, exp] of FIX) {
@@ -27,7 +29,8 @@ describe('json', () => {
       ['false', false],
       ['"test"', 'test'],
       ['["hello","world"]', ['hello', 'world']],
-      //['{"hello":"world"}', {hello: 'world'}],
+      ['{"hello":"world"}', { hello: 'world' }],
+      ['{"hello":"world","foo":"bar"}', { hello: 'world', foo: 'bar' }],
     ];
 
     for (const [str, exp] of FIX) {

@@ -27,6 +27,16 @@ function* jsIterate(val: types.JsVal): Generator<types.Tok> {
     yield { t: types.TokTy.Null };
   } else {
     switch (typeof val) {
+      case 'object':
+        yield { t: types.TokTy.ObjOpen };
+
+        for (const key in val) {
+          yield* jsIterate(key);
+          yield* jsIterate(val[key]);
+        }
+
+        yield { t: types.TokTy.ObjClose };
+        break;
       case 'boolean':
         yield { t: types.TokTy.Bool, v: val };
         break;
@@ -65,14 +75,27 @@ function tokToVal(all: types.Tok[]): types.JsVal {
     case types.TokTy.Str:
       return tok.v;
     case types.TokTy.ArrOpen:
-      const out = [];
+      const arr: types.JsArr = [];
       while (true) {
         if (all[0].t === types.TokTy.ArrClose) {
           break;
         }
-        out.push(tokToVal(all));
+        arr.push(tokToVal(all));
       }
-      return out;
+      return arr;
+    case types.TokTy.ObjOpen:
+      const obj: types.JsObj = {};
+      while (true) {
+        if (all[0].t === types.TokTy.ObjClose) {
+          break;
+        }
+        const key = tokToVal(all);
+        if (typeof key !== 'string') {
+          throw new Error('invalid object key was not a string');
+        }
+        obj[key] = tokToVal(all);
+      }
+      return obj;
   }
 
   throw new Error('unreachable');
